@@ -3,6 +3,7 @@ graft tests
 graft tools
 
 include CHANGES.md
+include CONTRIBUTORS.txt
 
 recursive-include aiofastnet *.pxd *.pyx
 
