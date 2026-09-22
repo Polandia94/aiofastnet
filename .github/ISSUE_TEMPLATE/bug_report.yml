@@ -52,7 +52,7 @@ body:
         [vulnerability report form]: ../security/advisories/new
       required: true
     - label: >-
-        I am willing to submit a pull request with reporoducers as xfailing test
+        I am willing to submit a pull request with reproducers as xfailing test
         cases or even entire fix. *(Assign this issue to me.)*
       required: false
 
