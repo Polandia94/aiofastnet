@@ -31,16 +31,18 @@ entertain early in the review process. Thank you in advance!
 - [ ] I think the code is well written
 - [ ] Unit tests for the changes exist
 - [ ] Documentation reflects the changes
-- [ ] Add a new news fragment into the `changelog.d` folder
-  * name it `<issue_id>.<category>.md` for example (588.bugfix)
+- [ ] Add a new news fragment into the `docs/changelog.d/` folder
+  * name it `<issue_id>.<category>.md` for example (`86.contrib.md`)
   * if you don't have an `issue_id` change it to the pr id after creating the pr
   * ensure category is one of the following:
-    * `.bugfix`: Signifying a bug fix.
-    * `.feature`: Signifying a new feature.
-    * `.deprecation`: Signifying a declaration of future removals and breaking changes in behavior.
-    * `.breaking`: Signifying a breaking change or removal of something public.
-    * `.doc`: Signifying a documentation improvement.
-    * `.packaging`: Signifying a packaging or tooling change that may be relevant to downstreams.
-    * `.contrib`: Signifying an improvement to the contributor/development experience.
-    * `.misc`: Anything that does not fit the above; usually, something not of interest to users.
-  * Make sure to use full sentences with correct case and punctuation, for example: "Fixed an issue with non-ASCII contents in doctest text files."
+    * `bugfix`: Signifying a bug fix.
+    * `feature`: Signifying a new feature.
+    * `deprecation`: Signifying a declaration of future removals and breaking changes in behavior.
+    * `breaking`: Signifying a breaking change or removal of something public.
+    * `doc`: Signifying a documentation improvement.
+    * `packaging`: Signifying a packaging or tooling change that may be relevant to downstreams.
+    * `contrib`: Signifying an improvement to the contributor/development experience.
+    * `misc`: Anything that does not fit the above; usually, something not of interest to users.
+  * Make sure to use full sentences with correct case and punctuation.
+    Explain high-level effects affecting the end-users, for example:
+    "Test runner no longer crashes when loading non-ASCII contents in doctest text files."
