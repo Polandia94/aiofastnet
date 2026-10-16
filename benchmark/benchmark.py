@@ -11,6 +11,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 
 import aiofastnet
+from benchmark.plot_utils import SVG_PLOT_STYLE, save_svg
 from examples.utils import build_ssl_contexts, run_pair, set_socket_sndbuf
 
 try:
@@ -87,31 +88,32 @@ def _plot_results(
     if not variants:
         return
 
-    fig, _axes = _plot_absolute_results(results, transports, msg_sizes, variants)
-    fig.suptitle(
-        f"Echo Round-Trip Benchmark | Python {python_version}\naiofastnet-{aiofastnet_version} | "
-        f"uvloop-{uvloop_version} | SO_SNDBUF={sndbuf_size}"
-    )
-    fig.tight_layout()
+    with plt.rc_context(SVG_PLOT_STYLE if save_plot else {}):
+        fig, _axes = _plot_absolute_results(results, transports, msg_sizes, variants)
+        fig.suptitle(
+            f"Echo Round-Trip Benchmark | Python {python_version}\naiofastnet-{aiofastnet_version} | "
+            f"uvloop-{uvloop_version} | SO_SNDBUF={sndbuf_size}"
+        )
+        fig.tight_layout()
 
-    if save_plot:
-        output_path = Path(__file__).with_name("benchmark.png")
-        fig.savefig(output_path, dpi=150)
-        print(f"saved plot to {output_path}")
-
-    heatmap_fig = _plot_speedup_heatmap(results, transports, msg_sizes)
-    if heatmap_fig is not None:
-        heatmap_fig.suptitle("aiofastnet speedup over native")
-        heatmap_fig.tight_layout()
         if save_plot:
-            output_path = Path(__file__).with_name("benchmark_speedup.png")
-            heatmap_fig.savefig(output_path, dpi=150)
+            output_path = Path(__file__).with_name("benchmark.svg")
+            save_svg(fig, output_path)
             print(f"saved plot to {output_path}")
-    else:
-        print("skipped speedup heatmap: need both native and aiofastnet results for at least one loop")
 
-    if not save_plot:
-        plt.show()
+        heatmap_fig = _plot_speedup_heatmap(results, transports, msg_sizes)
+        if heatmap_fig is not None:
+            heatmap_fig.suptitle("aiofastnet speedup over native")
+            heatmap_fig.tight_layout()
+            if save_plot:
+                output_path = Path(__file__).with_name("benchmark_speedup.svg")
+                save_svg(heatmap_fig, output_path)
+                print(f"saved plot to {output_path}")
+        else:
+            print("skipped speedup heatmap: need both native and aiofastnet results for at least one loop")
+
+        if not save_plot:
+            plt.show()
 
 
 def _collect_variants(results: dict[str, dict[int, dict[str, float]]]) -> list[str]:
@@ -297,7 +299,7 @@ def main():
         action="store_true",
         help="Send the --writelines chunks with individual write() calls instead of writelines()",
     )
-    parser.add_argument("--save-plot", action="store_true", help="Save plot to examples/benchmark.png")
+    parser.add_argument("--save-plot", action="store_true", help="Save plot to benchmark/benchmark.svg")
     parser.add_argument("--no-plot", action="store_true", help="Disable plotting")
     parser.add_argument("--asyncio-debug", action="store_true", help="Enable loop debug")
     args = parser.parse_args()

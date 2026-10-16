@@ -1,4 +1,5 @@
 graft examples
+graft benchmark
 graft tests
 
 include CHANGELOG.md

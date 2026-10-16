@@ -15,6 +15,7 @@ import psutil
 from matplotlib.ticker import ScalarFormatter
 
 import aiofastnet
+from benchmark.plot_utils import SVG_PLOT_STYLE, save_svg
 from examples.utils import build_ssl_contexts, run_pair
 
 try:
@@ -113,43 +114,44 @@ def plot_results(
     logical_cpus: int,
     physical_cores: int,
 ) -> None:
-    fig, (threaded_ax, single_ax) = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
-    colors = plt.rcParams["axes.prop_cycle"].by_key()["color"]
-    handles = []
-    labels = []
+    with plt.rc_context(SVG_PLOT_STYLE if save_plot else {}):
+        fig, (threaded_ax, single_ax) = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
+        colors = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+        handles = []
+        labels = []
 
-    for index, (label, values) in enumerate(single_loop_results.items()):
-        color = colors[index % len(colors)]
-        (line,) = threaded_ax.plot(pairs_list, threaded_results[label], marker="o", linewidth=2, color=color, label=label)
-        single_ax.plot(pairs_list, values, marker="o", linewidth=2, color=color, label=label)
-        handles.append(line)
-        labels.append(label)
+        for index, (label, values) in enumerate(single_loop_results.items()):
+            color = colors[index % len(colors)]
+            (line,) = threaded_ax.plot(pairs_list, threaded_results[label], marker="o", linewidth=2, color=color, label=label)
+            single_ax.plot(pairs_list, values, marker="o", linewidth=2, color=color, label=label)
+            handles.append(line)
+            labels.append(label)
 
-    threaded_ax.set_title("One event loop per thread")
-    single_ax.set_title("Single event loop")
-    single_ax.set_xlabel("Number of client/server pairs")
+        threaded_ax.set_title("One event loop per thread")
+        single_ax.set_title("Single event loop")
+        single_ax.set_xlabel("Number of client/server pairs")
 
-    for ax in (single_ax, threaded_ax):
-        ax.set_ylabel("Requests per second")
-        ax.set_xscale("log", base=2)
-        ax.set_xticks(pairs_list)
-        ax.xaxis.set_major_formatter(ScalarFormatter())
-        ax.yaxis.set_major_formatter(ScalarFormatter())
-        ax.grid(alpha=0.25)
+        for ax in (single_ax, threaded_ax):
+            ax.set_ylabel("Requests per second")
+            ax.set_xscale("log", base=2)
+            ax.set_xticks(pairs_list)
+            ax.xaxis.set_major_formatter(ScalarFormatter())
+            ax.yaxis.set_major_formatter(ScalarFormatter())
+            ax.grid(alpha=0.25)
 
-    fig.suptitle(
-        f"{'SSL' if use_tls else 'TCP'} Echo Benchmark | Python {sys.version.split()[0]} | msg_size={msg_size}\n"
-        f"physical cores={physical_cores} | logical cores={logical_cpus}"
-    )
-    fig.legend(handles, labels, loc="lower center", ncol=min(len(labels), 4))
-    fig.tight_layout(rect=(0, 0.06, 1, 0.94))
-    if save_plot:
-        suffix = "tls" if use_tls else "tcp"
-        output_path = Path(__file__).with_name(f"benchmark_threaded_{suffix}.png")
-        fig.savefig(output_path, dpi=150)
-        print(f"saved plot to {output_path}")
-    else:
-        plt.show()
+        fig.suptitle(
+            f"{'SSL' if use_tls else 'TCP'} Echo Benchmark | Python {sys.version.split()[0]} | msg_size={msg_size}\n"
+            f"physical cores={physical_cores} | logical cores={logical_cpus}"
+        )
+        fig.legend(handles, labels, loc="lower center", ncol=min(len(labels), 4), frameon=not save_plot)
+        fig.tight_layout(rect=(0, 0.06, 1, 0.94))
+        if save_plot:
+            suffix = "tls" if use_tls else "tcp"
+            output_path = Path(__file__).with_name(f"benchmark_threaded_{suffix}.svg")
+            save_svg(fig, output_path)
+            print(f"saved plot to {output_path}")
+        else:
+            plt.show()
 
 
 def parse_args() -> argparse.Namespace:
@@ -191,7 +193,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--save-plot",
         action="store_true",
-        help="Save plot to examples/benchmark_threaded_tcp.png or examples/benchmark_threaded_tls.png",
+        help="Save plot to benchmark/benchmark_threaded_tcp.svg or benchmark/benchmark_threaded_tls.svg",
     )
     parser.add_argument(
         "--no-plot",

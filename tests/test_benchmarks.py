@@ -4,7 +4,7 @@ These benchmarks measure the cost of a fixed number of echo round-trips over a
 loopback connection, comparing the native asyncio transport against the
 aiofastnet transport for both plain TCP and TLS.
 
-Unlike the throughput benchmarks in ``examples/benchmark.py`` (which run for a
+Unlike the throughput benchmarks in ``benchmark/benchmark.py`` (which run for a
 fixed duration and report round-trips/sec), these run a fixed, deterministic
 number of round-trips so they can be measured with CodSpeed's CPU simulation
 instrument.

@@ -94,8 +94,8 @@ elif os.name == 'nt':
 if with_examples:
     extensions.append(
         make_extension(
-            "examples.benchmark_protocol",
-            ["examples/benchmark_protocol.py"],
+            "examples.protocol",
+            ["examples/protocol.py"],
         )
     )
 

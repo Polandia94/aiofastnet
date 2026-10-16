@@ -4,7 +4,7 @@ set -euo pipefail
 usage() {
     echo "Usage: $0 [benchmark args...]"
     echo
-    echo "Runs examples.benchmark_threaded after pinning all Linux CPU frequency policies"
+    echo "Runs benchmark.benchmark_threaded after pinning all Linux CPU frequency policies"
     echo "to the performance governor and maximum frequency. Original settings are restored"
     echo "when the benchmark exits."
     echo
@@ -110,7 +110,7 @@ export MPLCONFIGDIR=${MPLCONFIGDIR:-/tmp/aiofastnet-matplotlib}
 if [[ ${1:-} == "-h" || ${1:-} == "--help" ]]; then
     usage
     echo
-    "$PYTHON" -m examples.benchmark_threaded --help
+    "$PYTHON" -m benchmark.benchmark_threaded --help
     exit 0
 fi
 
@@ -125,4 +125,4 @@ trap 'exit 143' TERM
 prepare_cpu_frequency
 
 echo "Running threaded benchmark..."
-"$PYTHON" -m examples.benchmark_threaded "$@"
+"$PYTHON" -m benchmark.benchmark_threaded "$@"
