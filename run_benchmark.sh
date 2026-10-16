@@ -113,4 +113,4 @@ for cpu in "${SAVED_CPUS[@]}"; do
 done
 
 echo "Running benchmark on logical CPU $CPU..."
-taskset -c "$CPU" "$PYTHON" -m examples.benchmark "$@"
+taskset -c "$CPU" "$PYTHON" -m benchmark.benchmark "$@"

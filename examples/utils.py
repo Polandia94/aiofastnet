@@ -9,7 +9,7 @@ from pathlib import Path
 
 import aiofastnet
 
-from .benchmark_protocol import ClientProtocol, ServerProtocol
+from .protocol import ClientProtocol, ServerProtocol
 
 
 def set_socket_sndbuf(sock: socket.socket, size: int) -> int:

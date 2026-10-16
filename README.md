@@ -54,11 +54,11 @@ The benchmark below compares echo round-trips over loopback for TCP and SSL.
 The exact gains depend on workload, message sizes, CPU, OpenSSL version, and how
 much of your total runtime is spent in transport/SSL plumbing.
 
-[![Benchmark](examples/benchmark.svg)](examples/benchmark.svg)
+[![Benchmark](benchmark/benchmark.svg)](benchmark/benchmark.svg)
 
-[![Speedup](examples/benchmark_speedup.svg)](examples/benchmark_speedup.svg)
+[![Speedup](benchmark/benchmark_speedup.svg)](benchmark/benchmark_speedup.svg)
 
-Source: [examples/benchmark.py](examples/benchmark.py)
+Source: [benchmark/benchmark.py](benchmark/benchmark.py)
 
 In these benchmarks, `aiofastnet` is up to
 2.7x faster than standard `asyncio` and up to 1.3x faster than uvloop for TLS
@@ -67,11 +67,11 @@ connections.
 `aiofastnet` is fully compatible with free-threaded Python builds and scales
 as expected when multiple event loops run in parallel across multiple threads.
 
-[![SSL Threaded Benchmark](examples/benchmark_threaded_tls.svg)](examples/benchmark_threaded_tls.svg)
+[![SSL Threaded Benchmark](benchmark/benchmark_threaded_tls.svg)](benchmark/benchmark_threaded_tls.svg)
 
-[![TCP Threaded Benchmark](examples/benchmark_threaded_tcp.svg)](examples/benchmark_threaded_tcp.svg)
+[![TCP Threaded Benchmark](benchmark/benchmark_threaded_tcp.svg)](benchmark/benchmark_threaded_tcp.svg)
 
-Source: [examples/benchmark_threaded.py](examples/benchmark_threaded.py)
+Source: [benchmark/benchmark_threaded.py](benchmark/benchmark_threaded.py)
 
 ## How is this possible?
 
@@ -421,7 +421,7 @@ legacy GIL back on, so separate event loops may run in separate threads.
 
 The repository includes several free-threading examples:
 
-- [examples/benchmark_threaded.py](https://github.com/aio-libs/aiofastnet/blob/master/examples/benchmark_threaded.py) runs multiple echo client/server pairs in
+- [benchmark/benchmark_threaded.py](benchmark/benchmark_threaded.py) runs multiple echo client/server pairs in
   parallel to compare single-loop and multi-threaded execution.
 - [examples/echo_server_threaded.py](https://github.com/aio-libs/aiofastnet/blob/master/examples/echo_server_threaded.py) starts one listening echo server per
   thread on the same port with `reuse_port=True` so the kernel can distribute
@@ -484,7 +484,7 @@ one thread.
 5. Run the benchmark:
 
    ```console
-   $ python -m examples.benchmark
+   $ python -m benchmark.benchmark
    ```
 
 6. Run tests:

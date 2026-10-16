@@ -11,7 +11,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 
 import aiofastnet
-from examples.plot_utils import SVG_PLOT_STYLE, save_svg
+from benchmark.plot_utils import SVG_PLOT_STYLE, save_svg
 from examples.utils import build_ssl_contexts, run_pair, set_socket_sndbuf
 
 try:
@@ -299,7 +299,7 @@ def main():
         action="store_true",
         help="Send the --writelines chunks with individual write() calls instead of writelines()",
     )
-    parser.add_argument("--save-plot", action="store_true", help="Save plot to examples/benchmark.svg")
+    parser.add_argument("--save-plot", action="store_true", help="Save plot to benchmark/benchmark.svg")
     parser.add_argument("--no-plot", action="store_true", help="Disable plotting")
     parser.add_argument("--asyncio-debug", action="store_true", help="Enable loop debug")
     args = parser.parse_args()

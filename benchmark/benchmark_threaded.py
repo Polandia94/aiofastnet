@@ -15,7 +15,7 @@ import psutil
 from matplotlib.ticker import ScalarFormatter
 
 import aiofastnet
-from examples.plot_utils import SVG_PLOT_STYLE, save_svg
+from benchmark.plot_utils import SVG_PLOT_STYLE, save_svg
 from examples.utils import build_ssl_contexts, run_pair
 
 try:
@@ -193,7 +193,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--save-plot",
         action="store_true",
-        help="Save plot to examples/benchmark_threaded_tcp.svg or examples/benchmark_threaded_tls.svg",
+        help="Save plot to benchmark/benchmark_threaded_tcp.svg or benchmark/benchmark_threaded_tls.svg",
     )
     parser.add_argument(
         "--no-plot",
