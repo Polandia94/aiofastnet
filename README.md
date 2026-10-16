@@ -54,11 +54,11 @@ The benchmark below compares echo round-trips over loopback for TCP and SSL.
 The exact gains depend on workload, message sizes, CPU, OpenSSL version, and how
 much of your total runtime is spent in transport/SSL plumbing.
 
-[![Benchmark](https://raw.githubusercontent.com/tarasko/aiofastnet/svg_charts/examples/benchmark.svg)](https://github.com/aio-libs/aiofastnet/blob/svg_charts/examples/benchmark.svg)
+[![Benchmark](examples/benchmark.svg)](examples/benchmark.svg)
 
-[![Speedup](https://raw.githubusercontent.com/tarasko/aiofastnet/svg_charts/examples/benchmark_speedup.svg)](https://github.com/aio-libs/aiofastnet/blob/svg_charts/examples/benchmark_speedup.svg)
+[![Speedup](examples/benchmark_speedup.svg)](examples/benchmark_speedup.svg)
 
-Source: [examples/benchmark.py](https://github.com/aio-libs/aiofastnet/blob/master/examples/benchmark.py)
+Source: [examples/benchmark.py](examples/benchmark.py)
 
 In these benchmarks, `aiofastnet` is up to
 2.7x faster than standard `asyncio` and up to 1.3x faster than uvloop for TLS
@@ -67,11 +67,11 @@ connections.
 `aiofastnet` is fully compatible with free-threaded Python builds and scales
 as expected when multiple event loops run in parallel across multiple threads.
 
-[![SSL Threaded Benchmark](https://raw.githubusercontent.com/aio-libs/aiofastnet/master/examples/benchmark_threaded_tls.png)](https://github.com/aio-libs/aiofastnet/blob/master/examples/benchmark_threaded_tls.png)
+[![SSL Threaded Benchmark](examples/benchmark_threaded_tls.png)](examples/benchmark_threaded_tls.png)
 
-[![TCP Threaded Benchmark](https://raw.githubusercontent.com/aio-libs/aiofastnet/master/examples/benchmark_threaded_tcp.png)](https://github.com/aio-libs/aiofastnet/blob/master/examples/benchmark_threaded_tcp.png)
+[![TCP Threaded Benchmark](examples/benchmark_threaded_tcp.png)](examples/benchmark_threaded_tcp.png)
 
-Source: [examples/benchmark_threaded.py](https://github.com/aio-libs/aiofastnet/blob/master/examples/benchmark_threaded.py)
+Source: [examples/benchmark_threaded.py](examples/benchmark_threaded.py)
 
 ## How is this possible?
 
