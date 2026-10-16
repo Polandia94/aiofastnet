@@ -67,9 +67,9 @@ connections.
 `aiofastnet` is fully compatible with free-threaded Python builds and scales
 as expected when multiple event loops run in parallel across multiple threads.
 
-[![SSL Threaded Benchmark](examples/benchmark_threaded_tls.png)](examples/benchmark_threaded_tls.png)
+[![SSL Threaded Benchmark](examples/benchmark_threaded_tls.svg)](examples/benchmark_threaded_tls.svg)
 
-[![TCP Threaded Benchmark](examples/benchmark_threaded_tcp.png)](examples/benchmark_threaded_tcp.png)
+[![TCP Threaded Benchmark](examples/benchmark_threaded_tcp.svg)](examples/benchmark_threaded_tcp.svg)
 
 Source: [examples/benchmark_threaded.py](examples/benchmark_threaded.py)
 

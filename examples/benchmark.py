@@ -5,13 +5,13 @@ import logging
 import math
 import socket
 import sys
-from io import StringIO
 from logging import basicConfig
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 
 import aiofastnet
+from examples.plot_utils import SVG_PLOT_STYLE, save_svg
 from examples.utils import build_ssl_contexts, run_pair, set_socket_sndbuf
 
 try:
@@ -29,16 +29,6 @@ except ImportError:
 UDP_MAX_PAYLOAD_SIZE = 65507
 SUPPORTED_TRANSPORTS = ["ssl", "tcp", "udp"]
 SUPPORTED_LOOPS = ["asyncio", "uvloop", "blazio"]
-SVG_FOREGROUND = "#1f2328"
-SVG_DARK_FOREGROUND = "#f0f6fc"
-PLOT_STYLE = {
-    "axes.edgecolor": SVG_FOREGROUND,
-    "axes.labelcolor": SVG_FOREGROUND,
-    "axes.titlecolor": SVG_FOREGROUND,
-    "text.color": SVG_FOREGROUND,
-    "xtick.color": SVG_FOREGROUND,
-    "ytick.color": SVG_FOREGROUND,
-}
 
 
 def _round_msg_size(msg_size: int, chunks: int) -> int:
@@ -98,7 +88,7 @@ def _plot_results(
     if not variants:
         return
 
-    with plt.rc_context(PLOT_STYLE if save_plot else {}):
+    with plt.rc_context(SVG_PLOT_STYLE if save_plot else {}):
         fig, _axes = _plot_absolute_results(results, transports, msg_sizes, variants)
         fig.suptitle(
             f"Echo Round-Trip Benchmark | Python {python_version}\naiofastnet-{aiofastnet_version} | "
@@ -108,7 +98,7 @@ def _plot_results(
 
         if save_plot:
             output_path = Path(__file__).with_name("benchmark.svg")
-            _save_svg(fig, output_path)
+            save_svg(fig, output_path)
             print(f"saved plot to {output_path}")
 
         heatmap_fig = _plot_speedup_heatmap(results, transports, msg_sizes)
@@ -117,28 +107,13 @@ def _plot_results(
             heatmap_fig.tight_layout()
             if save_plot:
                 output_path = Path(__file__).with_name("benchmark_speedup.svg")
-                _save_svg(heatmap_fig, output_path)
+                save_svg(heatmap_fig, output_path)
                 print(f"saved plot to {output_path}")
         else:
             print("skipped speedup heatmap: need both native and aiofastnet results for at least one loop")
 
         if not save_plot:
             plt.show()
-
-
-def _save_svg(fig, output_path: Path) -> None:
-    buffer = StringIO()
-    fig.savefig(buffer, format="svg", transparent=True)
-    svg = buffer.getvalue().replace(SVG_FOREGROUND, "currentColor")
-    # Embedded SVG images cannot inherit the page's text color, but they can follow its color scheme.
-    theme_style = (
-        "<style type=\"text/css\">\n"
-        f":root {{ color-scheme: light dark; color: {SVG_FOREGROUND}; }}\n"
-        f"@media (prefers-color-scheme: dark) {{ :root {{ color: {SVG_DARK_FOREGROUND}; }} }}\n"
-        "</style>\n"
-    )
-    svg = svg.replace("<defs>", f"<defs>\n{theme_style}", 1)
-    output_path.write_text(svg, encoding="utf-8")
 
 
 def _collect_variants(results: dict[str, dict[int, dict[str, float]]]) -> list[str]:
